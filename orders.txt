@@ -1,0 +1,2 @@
+Order{orderId=1, customer=Customer{id=1, name='Μαρία Παπαδοπούλου', email='maria@example.com'}, products=[Product{code=101, name='Laptop', price=999.99}, Product{code=102, name='Οθόνη', price=199.99}], total=1199.98}
+Order{orderId=1, customer=Customer{id=1, name='Μαρία Παπαδοπούλου', email='maria@example.com'}, products=[Product{code=101, name='Laptop', price=999.99}, Product{code=102, name='Οθόνη', price=199.99}], total=1199.98}
