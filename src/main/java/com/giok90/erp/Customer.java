@@ -22,8 +22,8 @@ public class Customer {
     public String toString() {
         return "Customer{" +
                "id=" + id +
-               ", name='" + name + ''' +
-               ", email='" + email + ''' +
+               ", name='" + name + '\'' +
+               ", email='" + email + '\'' +
                '}';
     }
 }

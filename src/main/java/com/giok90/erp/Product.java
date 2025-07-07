@@ -19,7 +19,7 @@ public class Product {
     public String toString() {
         return "Product{" +
                "code=" + code +
-               ", name='" + name + ''' +
+               ", name='" + name + '\'' +
                ", price=" + price +
                '}';
     }

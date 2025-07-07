@@ -1,58 +1,66 @@
 package com.giok90.erp;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-
         CustomerDAO customerDAO = new CustomerDAO();
-        ProductDAO productDAO = new ProductDAO();
-        OrderDAO orderDAO = new OrderDAO();
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
 
-        // ----- Επιλογή πελάτη -----
-        List<Customer> customers = customerDAO.getAllCustomers();
-        System.out.println("📋 Λίστα Πελατών:");
-        for (Customer c : customers) {
-            System.out.println("ID: " + c.getId() + " - " + c.getName());
-        }
+        while (running) {
+            System.out.println("\n=== MENU ===");
+            System.out.println("1. View all customers");
+            System.out.println("2. Search customer by ID");
+            System.out.println("3. Add new customer");
+            System.out.println("4. Exit");
+            System.out.print("Choice: ");
+            String choice = scanner.nextLine();
 
-        System.out.print("➡ Δώσε το ID πελάτη: ");
-        int customerId = Integer.parseInt(scanner.nextLine());
-        Customer selectedCustomer = customerDAO.findById(customerId);
+            switch (choice) {
+                case "1":
+                    List<Customer> customers = customerDAO.getAllCustomers();
+                    System.out.println("\nCustomers:");
+                    for (Customer c : customers) {
+                        System.out.println("ID: " + c.getId() + " - " + c.getName());
+                    }
+                    break;
 
-        if (selectedCustomer == null) {
-            System.out.println("❌ Δεν βρέθηκε πελάτης με ID " + customerId);
-            return;
-        }
+                case "2":
+                    try {
+                        System.out.print("Enter customer ID: ");
+                        int id = Integer.parseInt(scanner.nextLine());
+                        Customer found = customerDAO.findById(id);
+                        if (found != null) {
+                            System.out.println("Customer: " + found);
+                        } else {
+                            System.out.println("No customer found with ID " + id);
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid ID. Please enter a number.");
+                    }
+                    break;
 
-        // ----- Επιλογή προϊόντων -----
-        List<Product> products = productDAO.getAllProducts();
-        System.out.println("\n🛒 Διαθέσιμα προϊόντα:");
-        for (Product p : products) {
-            System.out.println("Code: " + p.getCode() + " - " + p.getName() + " (€" + p.getPrice() + ")");
-        }
+                case "3":
+                    System.out.print("Customer name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Customer email: ");
+                    String email = scanner.nextLine();
+                    Customer newCustomer = new Customer(0, name, email);
+                    customerDAO.insert(newCustomer);
+                    System.out.println("Customer added successfully!");
+                    break;
 
-        System.out.print("➡ Πόσα προϊόντα θέλεις να προσθέσεις στην παραγγελία; ");
-        int count = Integer.parseInt(scanner.nextLine());
+                case "4":
+                    running = false;
+                    System.out.println("Exiting...");
+                    break;
 
-        List<Product> selectedProducts = new ArrayList<>();
-        for (int i = 0; i < count; i++) {
-            System.out.print("Δώσε τον κωδικό προϊόντος #" + (i + 1) + ": ");
-            int code = Integer.parseInt(scanner.nextLine());
-            Product p = productDAO.findByCode(code);
-            if (p != null) {
-                selectedProducts.add(p);
-            } else {
-                System.out.println("⚠ Το προϊόν με κωδικό " + code + " δεν βρέθηκε.");
+                default:
+                    System.out.println("Invalid choice.");
             }
         }
-
-        // ----- Δημιουργία και αποθήκευση παραγγελίας -----
-        Order order = new Order(0, selectedCustomer, selectedProducts);
-        orderDAO.saveOrder(order);
 
         scanner.close();
     }
