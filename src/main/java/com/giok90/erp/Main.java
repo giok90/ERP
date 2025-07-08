@@ -1,8 +1,3 @@
-package com.giok90.erp;
-
-import java.util.List;
-import java.util.Scanner;
-
 public class Main {
     public static void main(String[] args) {
         CustomerDAO customerDAO = new CustomerDAO();
@@ -28,17 +23,13 @@ public class Main {
                     break;
 
                 case "2":
-                    try {
-                        System.out.print("Enter customer ID: ");
-                        int id = Integer.parseInt(scanner.nextLine());
-                        Customer found = customerDAO.findById(id);
-                        if (found != null) {
-                            System.out.println("Customer: " + found);
-                        } else {
-                            System.out.println("No customer found with ID " + id);
-                        }
-                    } catch (NumberFormatException e) {
-                        System.out.println("Invalid ID. Please enter a number.");
+                    System.out.print("Enter customer ID: ");
+                    int id = Integer.parseInt(scanner.nextLine());
+                    Customer found = customerDAO.findById(id);
+                    if (found != null) {
+                        System.out.println("Customer: " + found);
+                    } else {
+                        System.out.println("Customer with ID " + id + " not found.");
                     }
                     break;
 
@@ -49,7 +40,7 @@ public class Main {
                     String email = scanner.nextLine();
                     Customer newCustomer = new Customer(0, name, email);
                     customerDAO.insert(newCustomer);
-                    System.out.println("Customer added successfully!");
+                    System.out.println("Customer added!");
                     break;
 
                 case "4":
